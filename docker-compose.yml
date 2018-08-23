@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  db:
+    image: cassandra:latest
+  cqlsh:
+    build:
+      context: .
+      dockerfile: docker/cqlsh/Dockerfile
+    volumes:
+      - ./src:/home/app/src
+    links:
+      - db:local.db
+  app:
+    build:
+      context: .
+      dockerfile: docker/lua/Dockerfile
+    volumes:
+      - ./src:/home/app/src
+    links:
+      - db:local.db
